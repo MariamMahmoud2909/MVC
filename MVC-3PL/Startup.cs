@@ -9,11 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MVC_3DAL.Data;
+using MVC_3BLL.Repositories;
+using MVC_3BLL.Interfaces;
 <<<<<<< HEAD
 using Microsoft.EntityFrameworkCore;
 =======
 >>>>>>> 3b0c5cbcee587fa524958edd454f329e5eeb3aec
-
 namespace MVC_3PL
 {
     public class Startup
@@ -25,22 +26,13 @@ namespace MVC_3PL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-<<<<<<< HEAD
-
-=======
->>>>>>> 3b0c5cbcee587fa524958edd454f329e5eeb3aec
-            //services.AddMvc();
+            //services.AddControllersWithViews();
+            services.AddMvc();
             // services.AddTransient<ApplicationDbContext>();
             // services.AddScoped<ApplicationDbContext>();
             // services.AddSingleton<ApplicationDbContext>();
             //services.AddScoped<DbContextOptions<ApplicationDbContext>>();
-<<<<<<< HEAD
-         
-=======
-            services.AddDbContext<ApplicationDbContext>(
-                
-                );
->>>>>>> 3b0c5cbcee587fa524958edd454f329e5eeb3aec
+
             services.AddDbContext<ApplicationDbContext>
                 (
                 options =>
@@ -48,11 +40,9 @@ namespace MVC_3PL
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 }
                 );
-<<<<<<< HEAD
-            
-=======
+
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
->>>>>>> 3b0c5cbcee587fa524958edd454f329e5eeb3aec
+
         
     }
 
