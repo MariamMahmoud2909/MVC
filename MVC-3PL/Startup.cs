@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MVC_3DAL.Data;
 
 namespace MVC_3PL
 {
@@ -24,7 +25,24 @@ namespace MVC_3PL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-        }
+            //services.AddMvc();
+            // services.AddTransient<ApplicationDbContext>();
+            // services.AddScoped<ApplicationDbContext>();
+            // services.AddSingleton<ApplicationDbContext>();
+            //services.AddScoped<DbContextOptions<ApplicationDbContext>>();
+            services.AddDbContext<ApplicationDbContext>(
+                
+                );
+            services.AddDbContext<ApplicationDbContext>
+                (
+                options =>
+                {
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                }
+                );
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
