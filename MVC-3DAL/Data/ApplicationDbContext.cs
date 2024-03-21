@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MVC_3DAL.Data
 {
-    internal class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -19,6 +19,7 @@ namespace MVC_3DAL.Data
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
+
 
         public DbSet<Department> Departments { get; set; }
 
