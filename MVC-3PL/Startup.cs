@@ -9,30 +9,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MVC_3DAL.Data;
+<<<<<<< HEAD
+using Microsoft.EntityFrameworkCore;
+=======
+>>>>>>> 3b0c5cbcee587fa524958edd454f329e5eeb3aec
 
 namespace MVC_3PL
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; } = null;
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3b0c5cbcee587fa524958edd454f329e5eeb3aec
             //services.AddMvc();
             // services.AddTransient<ApplicationDbContext>();
             // services.AddScoped<ApplicationDbContext>();
             // services.AddSingleton<ApplicationDbContext>();
             //services.AddScoped<DbContextOptions<ApplicationDbContext>>();
+<<<<<<< HEAD
+         
+=======
             services.AddDbContext<ApplicationDbContext>(
                 
                 );
+>>>>>>> 3b0c5cbcee587fa524958edd454f329e5eeb3aec
             services.AddDbContext<ApplicationDbContext>
                 (
                 options =>
@@ -40,7 +48,11 @@ namespace MVC_3PL
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 }
                 );
+<<<<<<< HEAD
+            
+=======
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+>>>>>>> 3b0c5cbcee587fa524958edd454f329e5eeb3aec
         
     }
 
