@@ -37,5 +37,22 @@ namespace MVC_3PL.Controllers
             }
             return View(department);
         }
+
+
+        // /Department/Details/10 
+        // /Department/Details 
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue)
+                return BadRequest(); // 400
+            var department = _departmentRepository.Get(id.Value);
+
+            if (department is null)
+                return NotFound(); // 404 
+
+            return View(department);
+        }
     }
 }
