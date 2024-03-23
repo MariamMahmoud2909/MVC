@@ -32,6 +32,7 @@ namespace MVC_3PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Department department)
         {
             if (ModelState.IsValid) // server side validation
