@@ -93,7 +93,43 @@ namespace MVC_3PL.Controllers
                 return View(department);
             }
         }
+        public IActionResult Delete(int? id)
+        {
+            return Details(id, "Delete");
+        }
 
+        [HttpPost]
+        public IActionResult Delete(Department department)
+        {
+            try
+            {
+                _departmentRepository.Delete(department);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                else
+                    ModelState.AddModelError(string.Empty, ("An error has occured during updating the department"));
+                return View(department);
+                //return View("Error", new ErrorViewModel());
+            }
+        }
+
+        ///Delete using modal
+        ///[HttpPost]
+        ///[ValidateAntiForgeryToken]
+        ///public IActionResult Delete(int id)
+        ///{
+        ///	var departmentToDelete = _departmentRepo.Get(id);
+        ///	if (departmentToDelete == null)
+        ///	{
+        ///		return NotFound(); 
+        ///	}
+        ///	_departmentRepo.Delete(departmentToDelete); 
+        ///	return RedirectToAction("Index");
+        ///}
 
     }
 }
