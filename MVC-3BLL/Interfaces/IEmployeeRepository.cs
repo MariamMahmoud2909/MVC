@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MVC_3BLL.Interfaces
 {
-	public interface IEmployeeRepository
+	public interface IEmployeeRepository : IGenericRepository<Employee>
 	{
 		IQueryable<Employee> GetEmployeeByAddress(string address);
 	}

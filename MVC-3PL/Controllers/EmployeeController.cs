@@ -63,7 +63,7 @@ namespace MVC_3PL.Controllers
 		public IActionResult Edit([FromRoute] int id, Employee employee)
 		{
 
-			if (id != employee.Id)
+			if (id != employee.ID)
 				return BadRequest();
 
 			if (!ModelState.IsValid)
