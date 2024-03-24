@@ -70,7 +70,7 @@ namespace MVC_3PL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int id, Department department)
         {
-            if (id != department.Id)
+            if (id != department.ID)
             {
                 return BadRequest(new ViewResult());
             }
