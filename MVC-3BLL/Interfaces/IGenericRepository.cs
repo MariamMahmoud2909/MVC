@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace MVC_3BLL.Interfaces
 {
-	public interface IEmployeeRepository
+	public interface IGenericRepository<T> where T: ModelBase
 	{
-		IQueryable<Employee> GetEmployeeByAddress(string address);
+		IEnumerable<T> GetAll();
+		T Get(int id);
+		int Add(T entity);
+		int Update(T entity);
+		int Delete(T entity);
 	}
 }

@@ -9,42 +9,17 @@ using System.Threading.Tasks;
 
 namespace MVC_3BLL.Repositories
 {
-	internal class EmployeeRepository : IEmployeeRepository
+	internal class EmployeeRepository :GenericRepository<Employee>, IEmployeeRepository
 	{
-		private readonly ApplicationDbContext _dbContext;
-		public EmployeeRepository(ApplicationDbContext dbContext)
+		public EmployeeRepository(ApplicationDbContext dbContext) : base(dbContext)
 		{
-			_dbContext = dbContext;
-		}
-		public int Add(Employee entity)
-		{
-			_dbContext.Add(entity);
-			return _dbContext.SaveChanges();
+
 		}
 
-		public int Delete(Employee entity)
+		public IQueryable<Employee> GetEmployeeByAddress(string address)
 		{
-			_dbContext.Remove(entity);
-			return _dbContext.SaveChanges();
+			return _dbContext.Employees.Where(E => E.Address.Equals(address, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public Employee Get(int id)
-		{
-			///var Employee = _dbContext.Employees.Local.Where(D => D.Id == id).FirstOrDefault();
-			///if(Employee == null)
-			///    Employee = _dbContext.Employees.Where(D => D.Id == id).FirstOrDefault();
-			///return Employee;
-			///
-			return _dbContext.Employees.Find(id);
-		}
-
-		public IEnumerable<Employee> GetAll()
-			=> _dbContext.Employees.ToList();
-
-		public int Update(Employee entity)
-		{
-			_dbContext.Update(entity);
-			return _dbContext.SaveChanges();
-		}
 	}
 }

@@ -22,9 +22,8 @@ namespace MVC_3DAL.Models
 		FullTime = 1,
 		PartTime = 2
 	}
-	public class Employee
+	public class Employee :ModelBase
 	{
-		public int Id { get; set; }
 		[Required(ErrorMessage = "Name is required")]
 		[MaxLength(50, ErrorMessage = "Max length of name is 50 chars")]
 		[MinLength(5, ErrorMessage = "Min length of name is 5 chars")]
