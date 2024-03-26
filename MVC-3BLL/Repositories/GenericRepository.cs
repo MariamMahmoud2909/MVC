@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MVC_3BLL.Repositories
 {
-	public class GenericRepository<T> : IGenericRepository<T> where T : ModelBase
+    public class GenericRepository<T> : IGenericRepository<T> where T : ModelBase
 	{
 		private protected readonly ApplicationDbContext _dbContext;
 		public GenericRepository(ApplicationDbContext dbContext)

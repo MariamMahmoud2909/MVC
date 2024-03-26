@@ -13,7 +13,7 @@ namespace MVC_3PL.Controllers
 		private readonly IEmployeeRepository _employeeRepository;
 		private readonly IWebHostEnvironment _env;
 
-		public EmployeeController(IEmployeeRepository employeeRepository, IWebHostEnvironment env)
+        public EmployeeController(IEmployeeRepository employeeRepository, IWebHostEnvironment env)
 		{
 			_employeeRepository = employeeRepository;
 			_env = env;

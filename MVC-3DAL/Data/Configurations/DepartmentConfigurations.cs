@@ -13,7 +13,7 @@ namespace MVC_3DAL.Data.Configurations
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Department> builder)
         {
-            builder.Property(D => D.Id);
+            builder.Property(D => D.ID);
             builder.Property(D => D.Name).IsRequired().HasColumnType("varchar").HasMaxLength(50);
             builder.Property(D => D.Code).IsRequired().HasColumnType("varchar").HasMaxLength(50);
         }
