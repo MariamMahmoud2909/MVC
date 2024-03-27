@@ -5,6 +5,13 @@
     ViewData["Title"] = "Employees";
 }
 
+@if (!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+    <div class="alert alert-primary">
+        @TempData["Message"]
+    </div>
+}
+
 <h1>All Employees</h1>
 
 <br />
