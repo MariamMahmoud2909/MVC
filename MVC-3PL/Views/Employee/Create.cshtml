@@ -1,0 +1,20 @@
+﻿@using MVC_3DAL.Models;
+@model Employee
+@{
+	ViewData["Title"] = "Create Employee";
+}
+
+<h1>Create New Employee</h1>
+
+<br />
+<br />
+
+<form asp-action="Create">
+	<partial name="PartialViews/CreateEditEmployeePartial" />
+
+	<input type="submit" value="Create" class="btn btn-primary" /> |
+	<a asp-action="Index" class="btn btn-light">Back To List</a>
+</form>
+@section validationScriptsSection {
+	<partial name="_ValidationScriptsPartial" />
+}

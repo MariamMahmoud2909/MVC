@@ -1,0 +1,16 @@
+﻿@model Department
+
+@using MVC_3DAL.Models;
+
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form asp-action="Create" method="post">
+    <partial name="PartialViews/CreateEditDepartmentPartial" />
+</form>
+@section validationScriptsSection {
+    <partial name="_ValidationScriptsPartial" />
+}
