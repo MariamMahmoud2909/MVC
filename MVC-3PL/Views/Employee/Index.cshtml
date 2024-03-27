@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Employee>
+﻿@using MVC_3DAL.Models;
+@model IEnumerable<Employee>
 
 @{
     ViewData["Title"] = "Employees";
@@ -22,7 +23,7 @@
                 <th>@Html.DisplayNameFor(E => E.Age)</th>
                 <th>@Html.DisplayNameFor(E => E.Email)</th>
                 <th>@Html.DisplayNameFor(E => E.Salary)</th>
-                <th>@Html.DisplayNameFor(E => E.IsActive)</th>
+                <th>@Html.DisplayNameFor(E => E.isActive)</th>
                 <th>@Html.DisplayNameFor(E => E.Gender)</th>
                 <th>Details</th>
                 <th>Update</th>
@@ -37,42 +38,9 @@
                     <td>@employee.Age</td>
                     <td>@Html.DisplayFor(D => employee.Email)</td>
                     <td>@Html.DisplayFor(D => employee.Salary)</td>
-                    <td>@Html.DisplayFor(D => employee.IsActive)</td>
+                    <td>@Html.DisplayFor(D => employee.isActive)</td>
                     <td>@employee.Gender</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-warning"> <i class="fas fa-eye"></i> Details</a>
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-success"> <i class="fas fa-edit"></i> Update</a>
-                    </td>
-                    <td>
-                        <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmationModal-@employee.Id">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                        <!-- Modal for delete confirmation -->
-                        <div class="modal fade" id="deleteConfirmationModal-@employee.Id" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel-@employee.Id" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteConfirmationModalLabel-@employee.Id">Delete Confirmation</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Are you sure you want to delete this employee?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <form method="post" asp-action="Delete" asp-route-id="@employee.Id">
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
+                    <partial name="_ButtonsPartial" model="@employee.ID" />
                 </tr>
             }
         </tbody>
