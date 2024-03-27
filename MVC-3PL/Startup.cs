@@ -13,6 +13,7 @@ using MVC_3BLL.Repositories;
 using MVC_3BLL.Interfaces;
 using MVC_3DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using MVC_3PL.Extensions;
 
 namespace MVC_3PL
 {
@@ -39,8 +40,8 @@ namespace MVC_3PL
                     options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 }
                 );
-
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+			services.AddApplicationServices();
+			services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 			services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 		}
