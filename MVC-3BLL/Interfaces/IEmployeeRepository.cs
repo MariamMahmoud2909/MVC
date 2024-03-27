@@ -10,5 +10,6 @@ namespace MVC_3BLL.Interfaces
     public interface IEmployeeRepository : IGenericRepository<Employee>
 	{
 		IQueryable<Employee> GetEmployeeByAddress(string address);
+		IQueryable<Employee> SearchByName(string name);
 	}
 }
