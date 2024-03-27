@@ -11,11 +11,18 @@ namespace MVC_3DAL.Data.Configurations
 {
     internal class DepartmentConfigurations : IEntityTypeConfiguration<Department>
     {
+
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Department> builder)
         {
             builder.Property(D => D.ID);
             builder.Property(D => D.Name).IsRequired().HasColumnType("varchar").HasMaxLength(50);
             builder.Property(D => D.Code).IsRequired().HasColumnType("varchar").HasMaxLength(50);
+
+
+            builder.HasMany(D => D.Employees)
+                   .WithOne(D => D.Department)
+                   .HasForeignKey(E => E.DepartmentId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
