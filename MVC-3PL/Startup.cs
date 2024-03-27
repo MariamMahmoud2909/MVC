@@ -36,7 +36,7 @@ namespace MVC_3PL
                 (
                 options =>
                 {
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 }
                 );
 

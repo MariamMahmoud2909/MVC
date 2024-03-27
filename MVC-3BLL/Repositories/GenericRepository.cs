@@ -33,7 +33,7 @@ namespace MVC_3BLL.Repositories
 			return _dbContext.Find<T>(id);
 		}
 
-		public IEnumerable<T> GetAll()
+		virtual public IEnumerable<T> GetAll()
 			=> _dbContext.Set<T>().ToList();
 
 		public int Update(T entity)

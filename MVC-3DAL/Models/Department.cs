@@ -12,5 +12,10 @@ namespace MVC_3DAL.Models
         public string Name { get; set; }
         public DateTime DateOfCreation { get; set; }
 
+        public string Description { get; set; }
+
+        // Navigational Property 
+        public virtual ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+
     }
 }

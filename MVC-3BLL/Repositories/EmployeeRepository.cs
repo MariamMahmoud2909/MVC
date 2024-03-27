@@ -1,4 +1,5 @@
-﻿using MVC_3BLL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using MVC_3BLL.Interfaces;
 using MVC_3DAL.Data;
 using MVC_3DAL.Models;
 using System;
@@ -20,6 +21,9 @@ namespace MVC_3BLL.Repositories
 		{
 			return _dbContext.Employees.Where(E => E.Address.Equals(address, StringComparison.OrdinalIgnoreCase));
 		}
-
-	}
+        
+		public override IEnumerable<Employee> GetAll()
+        => _dbContext.Employees.Include(E => E.Department).ToList();
+    }
+	
 }
