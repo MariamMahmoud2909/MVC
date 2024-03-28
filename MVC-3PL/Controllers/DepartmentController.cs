@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using AutoMapper;
+using System.Collections.Generic;
+using MVC_3PL.ViewModels;
 
 namespace MVC_3PL.Controllers
 {
@@ -14,16 +17,19 @@ namespace MVC_3PL.Controllers
     {
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IWebHostEnvironment _env;
+        private readonly IMapper mapper;
 
-        public DepartmentController(IDepartmentRepository depatmentRepository, IWebHostEnvironment env)
+        public DepartmentController(IDepartmentRepository depatmentRepository, IWebHostEnvironment env, IMapper mapper)
         {
             _departmentRepository = depatmentRepository;
             _env = env;
+            this.mapper = mapper;
         }
         public IActionResult Index()
         {
             var departments = _departmentRepository.GetAll();
-            return View(departments);
+            var mappedDepartments = mapper.Map<IEnumerable<Department>, IEnumerable<DepartmentViewModel>>(departments);
+            return View(mappedDepartments);
         }
 
         public IActionResult Create()
@@ -33,15 +39,16 @@ namespace MVC_3PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Department department)
+        public IActionResult Create(DepartmentViewModel departmentVM)
         {
+            var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
             if (ModelState.IsValid) // server side validation
             {
-                var count = _departmentRepository.Add(department);
+                var count = _departmentRepository.Add(mappedDep);
                 if (count > 0)
                     return RedirectToAction(nameof(Index));
             }
-            return View(department);
+            return View(mappedDep);
         }
 
         // /Department/Details/10 
@@ -57,7 +64,8 @@ namespace MVC_3PL.Controllers
 
             if (department is null)
                 return NotFound();
-            return View(viewName, department);
+            var mappedDep = mapper.Map<Department, DepartmentViewModel>(department);
+            return View(viewName, mappedDep);
         }
 
         [HttpGet]
@@ -68,19 +76,20 @@ namespace MVC_3PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, Department department)
+        public IActionResult Edit([FromRoute] int id, DepartmentViewModel departmentVM)
         {
-            if (id != department.ID)
+            if (id != departmentVM.Id)
             {
                 return BadRequest(new ViewResult());
             }
             if (!ModelState.IsValid)
             {
-                return View(department);
+                return View(departmentVM);
             }
             try
             {
-                _departmentRepository.Update(department);
+                var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
+                _departmentRepository.Update(mappedDep);
                 return RedirectToAction(nameof(Index));
             }
             catch (System.Exception ex)
@@ -90,7 +99,7 @@ namespace MVC_3PL.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 else
                     ModelState.AddModelError(string.Empty, ("An error has occured during updating the department"));
-                return View(department);
+                return View(departmentVM);
             }
         }
         public IActionResult Delete(int? id)
@@ -99,11 +108,12 @@ namespace MVC_3PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Department department)
+        public IActionResult Delete(DepartmentViewModel departmentVM )
         {
             try
             {
-                _departmentRepository.Delete(department);
+                var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
+                _departmentRepository.Delete(mappedDep);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -112,7 +122,7 @@ namespace MVC_3PL.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 else
                     ModelState.AddModelError(string.Empty, ("An error has occured during updating the department"));
-                return View(department);
+                return View(departmentVM);
                 //return View("Error", new ErrorViewModel());
             }
         }

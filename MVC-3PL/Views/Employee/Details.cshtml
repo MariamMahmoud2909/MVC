@@ -1,5 +1,5 @@
-﻿@using MVC_3DAL.Models;
-@model Employee
+﻿@using MVC_3PL.ViewModels;
+@model EmployeeViewModel;
 @{
 	ViewData["Title"] = "Employee Details";
 }
@@ -42,6 +42,6 @@
 		<input asp-for="HiringDate" class="form-control" readOnly />
 	</div>
 
-	<a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Edit</a> |
+	<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a> |
 	<a asp-action="Index" class="btn btn-light">Cancel</a>
 </div>

@@ -14,6 +14,7 @@ using MVC_3BLL.Interfaces;
 using MVC_3DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using MVC_3PL.Extensions;
+using MVC_3PL.Helpers;
 
 namespace MVC_3PL
 {
@@ -41,7 +42,8 @@ namespace MVC_3PL
                 }
                 );
 			services.AddApplicationServices();
-			services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 			services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 		}

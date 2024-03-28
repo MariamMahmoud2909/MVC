@@ -1,5 +1,5 @@
-﻿@using MVC_3DAL.Models;
-@model IEnumerable<Employee>
+﻿@using MVC_3PL.ViewModels;
+@model IEnumerable<EmployeeViewModel>
 
 @{
     ViewData["Title"] = "Employees";
@@ -60,7 +60,7 @@
                     <td>@Html.DisplayFor(D => employee.Salary)</td>
                     <td>@Html.DisplayFor(D => employee.isActive)</td>
                     <td>@employee.Gender</td>
-                    <partial name="_ButtonsPartial" model="@employee.ID" />
+                    <partial name="_ButtonsPartial" model="@employee.Id" />
                 </tr>
             }
         </tbody>

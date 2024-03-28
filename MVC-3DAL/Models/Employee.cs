@@ -24,25 +24,25 @@ namespace MVC_3DAL.Models
 	}
 	public class Employee :ModelBase
 	{
-		[Required(ErrorMessage = "Name is required")]
-		[MaxLength(50, ErrorMessage = "Max length of name is 50 chars")]
-		[MinLength(5, ErrorMessage = "Min length of name is 5 chars")]
+		//[Required(ErrorMessage = "Name is required")]
+		//[MaxLength(50, ErrorMessage = "Max length of name is 50 chars")]
+		//[MinLength(5, ErrorMessage = "Min length of name is 5 chars")]
 		public string Name { get; set; }
-		[Range(22, 30)]
+		//[Range(22, 30)]
 		public int? Age { get; set; }
-		[RegularExpression(@"^[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{5,10}-[a-zA-Z]{4,10}-[a-zA-Z]{5,10}$", ErrorMessage = "Address must be like 123 Street-City-Country")]
+		//[RegularExpression(@"^[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{5,10}-[a-zA-Z]{4,10}-[a-zA-Z]{5,10}$", ErrorMessage = "Address must be like 123 Street-City-Country")]
 		public string Address { get; set; }
 		public EmpType EmployeeType { get; set; }
 		public Gender Gender { get; set; }
-		[DataType(DataType.Currency)]
+		//[DataType(DataType.Currency)]
 		public decimal Salary { get; set; }
-		[Display(Name = "IsActive")]
+		//[Display(Name = "IsActive")]
 		public bool isActive;
-		[EmailAddress]
+		//[EmailAddress]
 		public string Email { get; set; }
-		[Display(Name = "Phone Number")]
+		//[Display(Name = "Phone Number")]
 		public string PhoneNumber { get; set; }
-		[Display(Name = "Hiring Date")]
+		//[Display(Name = "Hiring Date")]
 		public DateTime HiringDate { get; set; }
 		public DateTime CreationDate { get; set; } = DateTime.Now;
 

@@ -1,6 +1,6 @@
-﻿@using MVC_3DAL.Models;
-
-@model IEnumerable<Department>
+﻿@using MVC_3PL.ViewModels;
+@using MVC_3DAL.Models;
+@model IEnumerable<DepartmentViewModel>
 @{
     ViewData["Title"] = "Index";
     ViewBag.Title = "Index";
@@ -25,7 +25,7 @@
                 <th>Delete</th>
 		</thead>
 		<tbody>
-                @foreach(Department department in Model)
+                @foreach(DepartmentViewModel department in Model)
                 {
                     
                     <tr>
@@ -33,7 +33,7 @@
                     <td>@department.Code</td>
                     <td>@department.Name</td>
                     <td>@department.DateOfCreation</td>
-					<partial name="_ButtonsPartial" model="@Department.Id" />
+					<partial name="_ButtonsPartial" model="@department.Id" />
 				</tr>
 			}
 		</tbody>
