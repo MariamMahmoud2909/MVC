@@ -9,9 +9,10 @@ namespace MVC_3PL.Extensions
 	{
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
-			services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-			services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-			services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+			services.AddScoped<IUnitOfWork, UnitOfWork>();	
+			//services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+			//services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+			//services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
 
 			return services;
 		}

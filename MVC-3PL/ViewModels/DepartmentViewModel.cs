@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System;
+using MVC_3DAL.Models;
 
 namespace MVC_3PL.ViewModels
 {

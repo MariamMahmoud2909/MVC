@@ -16,16 +16,14 @@ namespace MVC_3BLL.Repositories
 		{
 			_dbContext = dbContext;
 		}
-		public int Add(T entity)
+		public void Add(T entity)
 		{
 			_dbContext.Add(entity);
-			return _dbContext.SaveChanges();
 		}
 
-		public int Delete(T entity)
+		public void Delete(T entity)
 		{
 			_dbContext.Remove(entity);
-			return _dbContext.SaveChanges();
 		}
 
 		public T Get(int id)
@@ -36,10 +34,9 @@ namespace MVC_3BLL.Repositories
 		virtual public IEnumerable<T> GetAll()
 			=> _dbContext.Set<T>().ToList();
 
-		public int Update(T entity)
+		public void Update(T entity)
 		{
 			_dbContext.Update(entity);
-			return _dbContext.SaveChanges();
 		}
 	}
 }

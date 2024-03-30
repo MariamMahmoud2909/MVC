@@ -42,13 +42,14 @@ namespace MVC_3PL
                 }
                 );
 			services.AddApplicationServices();
-            services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-			services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+            //services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddApplicationServices();
 
 		}
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
