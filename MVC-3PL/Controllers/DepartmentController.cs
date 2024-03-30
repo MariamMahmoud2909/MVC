@@ -13,7 +13,9 @@ using MVC_3PL.ViewModels;
 
 namespace MVC_3PL.Controllers
 {
-    public class DepartmentController : Controller
+	//Inheritance : DepartmentController is a Controller
+	//Composition : DepartmentController has a Department Repository
+	public class DepartmentController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _env;
@@ -27,7 +29,7 @@ namespace MVC_3PL.Controllers
         }
         public IActionResult Index()
         {
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
+            var departments = _unitOfWork.Repository<Department>().GetAll();
             var mappedDepartments = mapper.Map<IEnumerable<Department>, IEnumerable<DepartmentViewModel>>(departments);
             return View(mappedDepartments);
         }
@@ -44,7 +46,7 @@ namespace MVC_3PL.Controllers
             var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
             if (ModelState.IsValid) // server side validation
             {
-                _unitOfWork.DepartmentRepository.Add(mappedDep);
+                _unitOfWork.Repository<Department>().Add(mappedDep);
                 var count = _unitOfWork.Complete();
                 if (count > 0)
                     return RedirectToAction(nameof(Index));
@@ -61,7 +63,7 @@ namespace MVC_3PL.Controllers
             if (!id.HasValue)//id is null
                 return BadRequest();
 
-            var department = _unitOfWork.DepartmentRepository.Get(id.Value);
+            var department = _unitOfWork.Repository<Department>().Get(id.Value);
             _unitOfWork.Complete();
             if (department is null)
                 return NotFound();
@@ -90,7 +92,7 @@ namespace MVC_3PL.Controllers
             try
             {
                 var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
-                _unitOfWork.DepartmentRepository.Update(mappedDep);
+                _unitOfWork.Repository<Department>().Update(mappedDep);
 				_unitOfWork.Complete();
 				return RedirectToAction(nameof(Index));
             }
@@ -115,7 +117,7 @@ namespace MVC_3PL.Controllers
             try
             {
                 var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
-                _unitOfWork.DepartmentRepository.Delete(mappedDep);
+                _unitOfWork.Repository<Department>().Delete(mappedDep);
 				_unitOfWork.Complete();
 				return RedirectToAction(nameof(Index));
             }

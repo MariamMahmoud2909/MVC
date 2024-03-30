@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace MVC_3BLL.Interfaces
 {
-	public interface IUnitOfWork
+	public interface IUnitOfWork : IDisposable
 	{
-		IEmployeeRepository EmployeeRepository { get; set; }
-		IDepartmentRepository DepartmentRepository { get; set; }
-
-		//IGenericRepository<Department> DepartmentRepository { get; set; }
-
+		IGenericRepository<T> Repository<T>() where T: ModelBase;
+		
 		int Complete();
 	}
 }
