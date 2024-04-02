@@ -10,6 +10,8 @@ using AutoMapper;
 using System.Collections;
 using System.Collections.Generic;
 using MVC_3PL.ViewModels;
+using System.Reflection.Metadata;
+using MVC_3PL.Helpers;
 
 namespace MVC_3PL.Controllers
 {
@@ -49,9 +51,10 @@ namespace MVC_3PL.Controllers
 		[HttpPost]
 		public IActionResult Create(EmployeeViewModel employeeVM)
 		{
-            //Employee mappedEmployee = (Employee)employee;
-            var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-            
+			employeeVM.ImageName = DocumentSettings.UploadFile(employeeVM.Image, "images");
+			//Employee mappedEmployee = (Employee)employee;
+			var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
+
             if (ModelState.IsValid)
             {
                 _unitOfWork.Repository<Employee>().Add(mappedEmp);
@@ -59,10 +62,12 @@ namespace MVC_3PL.Controllers
                 var count= _unitOfWork.Complete();
                 
                 if (count > 0)
-                    TempData["message"] = "Department is created successfully";
-                else
+				{
+					TempData["message"] = "Department is created successfully";
+					return RedirectToAction(nameof(Index));
+				}
+				else
                     TempData["message"] = "An error has occurud while creating department";
-                return RedirectToAction(nameof(Index));
             }
             return View(mappedEmp);
         }

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace MVC_3PL.ViewModels
 {
@@ -29,6 +30,8 @@ namespace MVC_3PL.ViewModels
         public string PhoneNumber { get; set; }
         [Display(Name = "Hiring Date")]
         public DateTime HiringDate { get; set; }
+        public IFormFile Image { get; set; }
+
         //ForeginKey
         public int? DepartmentId { get; set; }
 

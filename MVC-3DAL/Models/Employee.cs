@@ -45,8 +45,9 @@ namespace MVC_3DAL.Models
 		//[Display(Name = "Hiring Date")]
 		public DateTime HiringDate { get; set; }
 		public DateTime CreationDate { get; set; } = DateTime.Now;
+		public string ImageName { get; set; }
 
-        public int? DepartmentId { get; set; } // Foreign Key
+		public int? DepartmentId { get; set; } // Foreign Key
 
         // Navigational Property
         public virtual Department Department { get; set; }

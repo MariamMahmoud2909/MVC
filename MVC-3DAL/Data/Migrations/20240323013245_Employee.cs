@@ -22,8 +22,10 @@ namespace MVC_3DAL.Data.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HiringDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+					ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+
+				},
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
