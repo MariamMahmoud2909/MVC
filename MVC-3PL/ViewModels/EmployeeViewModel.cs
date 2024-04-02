@@ -31,6 +31,7 @@ namespace MVC_3PL.ViewModels
         [Display(Name = "Hiring Date")]
         public DateTime HiringDate { get; set; }
         public IFormFile Image { get; set; }
+        public string ImageName { get; set; }
 
         //ForeginKey
         public int? DepartmentId { get; set; }
