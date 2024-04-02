@@ -83,6 +83,11 @@ namespace MVC_3PL.Controllers
             if (employee is null)
 				return NotFound();
 
+			if (ViewName.Equals(nameof(Delete), StringComparison.OrdinalIgnoreCase))
+			{
+				TempData["ImageName"] = employee.ImageName;
+			}
+
 			return View(ViewName, mappedEmp);
 		}
 
@@ -104,11 +109,18 @@ namespace MVC_3PL.Controllers
 
 			try
 			{
+				employeeVM.ImageName = TempData["ImageName"] as string;
+
 				var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
 				_unitOfWork.Repository<Employee>().Update(mappedEmp);
 
-				_unitOfWork.Complete();
-				return RedirectToAction(nameof(Index));
+				var count = _unitOfWork.Complete();
+				if (count > 0)
+				{
+					DocumentSettings.DeleteFile(employeeVM.ImageName, "images");
+					return RedirectToAction(nameof(Index));
+				}
+				return View(employeeVM);
 			}
 			catch (Exception ex)
 			{
