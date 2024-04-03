@@ -9,8 +9,8 @@ namespace MVC_3BLL.Interfaces
 {
 	public interface IGenericRepository<T> where T: ModelBase
 	{
-		IEnumerable<T> GetAll();
-		T Get(int id);
+		IEnumerable<T> GetAllAsync(); //As no tracking
+		Task<T> GetAsync(int id);
 		void Add(T entity);
 		void Update(T entity);
 		void Delete(T entity);

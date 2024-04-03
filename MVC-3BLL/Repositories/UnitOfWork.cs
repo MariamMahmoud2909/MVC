@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MVC_3BLL.Repositories
 {
-	public class UnitOfWork : IUnitOfWork, IDisposable
+	public class UnitOfWork : IUnitOfWork, IAsyncDisposable
 	{
 		private readonly ApplicationDbContext _dbContext;
 
@@ -24,13 +24,13 @@ namespace MVC_3BLL.Repositories
 			_repositories = new Hashtable();
 		}
 
-		public int Complete()
+		public async Task<int> Complete()
 		{
-			return _dbContext.SaveChanges();
+			return await _dbContext.SaveChangesAsync();
 		}
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
-			_dbContext.Dispose(); //closes the database conection
+			await _dbContext.DisposeAsync();
 		}
 
 		public IGenericRepository<T> Repository<T>() where T : ModelBase

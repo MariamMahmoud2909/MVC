@@ -1,4 +1,5 @@
-﻿using MVC_3BLL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using MVC_3BLL.Interfaces;
 using MVC_3DAL.Data;
 using MVC_3DAL.Models;
 using System;
@@ -17,26 +18,33 @@ namespace MVC_3BLL.Repositories
 			_dbContext = dbContext;
 		}
 		public void Add(T entity)
-		{
-			_dbContext.Add(entity);
-		}
+	       => _dbContext.Set<T>().Add(entity);
 
 		public void Delete(T entity)
 		{
-			_dbContext.Remove(entity);
+			_dbContext.Set<T>().Remove(entity);
 		}
 
-		public T Get(int id)
+		public async Task<T> GetAsync(int id)
 		{
-			return _dbContext.Find<T>(id);
+			return await _dbContext.FindAsync<T>(id);
 		}
 
-		virtual public IEnumerable<T> GetAll()
-			=> _dbContext.Set<T>().ToList();
+		public IEnumerable<T> GetAllAsync()
+		{
+			if (typeof(T) == typeof(Employee))
+			{
+				return (IEnumerable<T>)_dbContext.Employees.Include(E => E.Department).AsNoTracking().ToList();
+			}
+			else
+			{
+				return _dbContext.Set<T>().AsNoTracking().ToList();
+			}
+		}
 
 		public void Update(T entity)
 		{
-			_dbContext.Update(entity);
+			_dbContext.Set<T>().Update(entity);
 		}
 	}
 }

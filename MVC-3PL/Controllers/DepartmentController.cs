@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using System.Collections.Generic;
 using MVC_3PL.ViewModels;
+using System.Threading.Tasks;
 
 namespace MVC_3PL.Controllers
 {
@@ -29,7 +30,7 @@ namespace MVC_3PL.Controllers
         }
         public IActionResult Index()
         {
-            var departments = _unitOfWork.Repository<Department>().GetAll();
+			var departments = _unitOfWork.Repository<Department>().GetAllAsync(); 
             var mappedDepartments = mapper.Map<IEnumerable<Department>, IEnumerable<DepartmentViewModel>>(departments);
             return View(mappedDepartments);
         }
@@ -41,13 +42,13 @@ namespace MVC_3PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(DepartmentViewModel departmentVM)
-        {
+		public async Task<IActionResult> Create(DepartmentViewModel departmentVM)
+		{
             var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
             if (ModelState.IsValid) // server side validation
             {
                 _unitOfWork.Repository<Department>().Add(mappedDep);
-                var count = _unitOfWork.Complete();
+                var count = await _unitOfWork.Complete();
                 if (count > 0)
                     return RedirectToAction(nameof(Index));
             }
@@ -58,13 +59,14 @@ namespace MVC_3PL.Controllers
         // /Department/Details 
 
         [HttpGet]
-        public IActionResult Details(int? id, string viewName = "Details")
-        {
+		public async Task<IActionResult> Details(int? id, string viewName = "Details")
+		{
             if (!id.HasValue)//id is null
                 return BadRequest();
 
-            var department = _unitOfWork.Repository<Department>().Get(id.Value);
-            _unitOfWork.Complete();
+			var department = await _unitOfWork.Repository<Department>().GetAsync(id.Value); 
+            await _unitOfWork.Complete();
+
             if (department is null)
                 return NotFound();
             var mappedDep = mapper.Map<Department, DepartmentViewModel>(department);
@@ -72,14 +74,14 @@ namespace MVC_3PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
-        {
-            return Details(id, "Edit");
+		public async Task<IActionResult> Edit(int? id)
+		{
+            return await Details(id, "Edit");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, DepartmentViewModel departmentVM)
+        public async Task<IActionResult> Edit([FromRoute] int id, DepartmentViewModel departmentVM)
         {
             if (id != departmentVM.Id)
             {
@@ -93,7 +95,7 @@ namespace MVC_3PL.Controllers
             {
                 var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
                 _unitOfWork.Repository<Department>().Update(mappedDep);
-				_unitOfWork.Complete();
+				await _unitOfWork.Complete();
 				return RedirectToAction(nameof(Index));
             }
             catch (System.Exception ex)
@@ -106,19 +108,19 @@ namespace MVC_3PL.Controllers
                 return View(departmentVM);
             }
         }
-        public IActionResult Delete(int? id)
-        {
-            return Details(id, "Delete");
+		public async Task<IActionResult> Delete(int? id)
+		{
+            return await Details(id, "Delete");
         }
 
         [HttpPost]
-        public IActionResult Delete(DepartmentViewModel departmentVM )
+        public async Task<IActionResult> Delete(DepartmentViewModel departmentVM )
         {
             try
             {
                 var mappedDep = mapper.Map<DepartmentViewModel, Department>(departmentVM);
                 _unitOfWork.Repository<Department>().Delete(mappedDep);
-				_unitOfWork.Complete();
+				await _unitOfWork.Complete();
 				return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

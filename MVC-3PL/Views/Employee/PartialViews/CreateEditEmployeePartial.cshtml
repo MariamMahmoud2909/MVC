@@ -3,7 +3,7 @@
 
 @inject IUnitOfWork _unitOfWork
 @{
-	var departments = new SelectList(_unitOfWork.Repository<EmployeeViewModel>().GetAll(), nameof(DepartmentViewModel.Id), nameof(DepartmentViewModel.Name));
+	var departments = new SelectList(_unitOfWork.Repository<EmployeeViewModel>().GetAllAsync(), nameof(DepartmentViewModel.Id), nameof(DepartmentViewModel.Name));
 }
 <div>
 	<img src="~/files/images/@Model.ImageName" alt="Employee image" class="img-fluid rounded-circle" width="100px" height="100px" />

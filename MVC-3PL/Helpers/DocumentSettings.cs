@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MVC_3PL.Helpers
 {
 	public static class DocumentSettings
 	{
-		public static string UploadFile(IFormFile file, string folderName)
+		public static async Task<string> UploadFile(IFormFile file, string folderName)
 		{
 			//1. Get Located Folder Path Dynamically
 			string folderPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot\\files", folderName);
@@ -25,7 +27,7 @@ namespace MVC_3PL.Helpers
 			//4. Save File as streams [Data Per Time]
 
 			using var fileStream = new FileStream(filePath, FileMode.Create);
-			file.CopyTo(fileStream);
+			await file.CopyToAsync(fileStream);
 			//Dealing with files and streams is unmanaged by CLR (unmanaged resource) and therefore we used Using/TryFinally
 			
 			//5. Return FileName
