@@ -15,6 +15,7 @@ using MVC_3DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using MVC_3PL.Extensions;
 using MVC_3PL.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace MVC_3PL
 {
@@ -46,7 +47,7 @@ namespace MVC_3PL
             //services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddApplicationServices();
-
+			services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 		}
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

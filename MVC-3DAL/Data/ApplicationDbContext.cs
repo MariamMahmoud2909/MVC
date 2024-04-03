@@ -7,11 +7,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MVC_3DAL.Data
 {
-    public class ApplicationDbContext : DbContext
-    {
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> /*<IdentityUser, IdentityRole, string>*/
+	{
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
@@ -23,6 +24,8 @@ namespace MVC_3DAL.Data
 
         public DbSet<Department> Departments { get; set; }
 		public DbSet<Employee> Employees { get; set; }
-        public DbSet<IdentityUser> Users { get; set; }
+        
+        //public DbSet<IdentityUser> Users { get; set; }
+        //public DbSet<IdentityRole> Roles { get; set; }
 	}
 }
