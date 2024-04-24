@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MVC_3PL.ViewModels
+namespace MVC_3PL.ViewModels.Account
 {
 	public class SignupViewModel
 	{

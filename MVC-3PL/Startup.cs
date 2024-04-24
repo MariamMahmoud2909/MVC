@@ -53,6 +53,9 @@ namespace MVC_3PL
                 options.Password.RequireDigit = true;
             }).AddEntityFrameworkStores<ApplicationDbContext>();
 		}
+
+		services.AddAuthentication();
+
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
