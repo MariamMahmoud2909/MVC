@@ -11,11 +11,13 @@ using AutoMapper;
 using System.Collections.Generic;
 using MVC_3PL.ViewModels;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVC_3PL.Controllers
 {
 	//Inheritance : DepartmentController is a Controller
 	//Composition : DepartmentController has a Department Repository
+	[Authorize]
 	public class DepartmentController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

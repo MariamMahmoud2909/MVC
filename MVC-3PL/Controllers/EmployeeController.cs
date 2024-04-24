@@ -13,9 +13,11 @@ using MVC_3PL.ViewModels;
 using System.Reflection.Metadata;
 using MVC_3PL.Helpers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVC_3PL.Controllers
 {
+	[Authorize]
 	public class EmployeeController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
