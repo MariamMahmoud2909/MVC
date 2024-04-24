@@ -94,6 +94,12 @@ namespace MVC_3PL.Controllers
 
 		}
 
+		public async new Task<IActionResult> SignOut()
+		{
+			await signInManager.SignOutAsync();
+			return RedirectToAction(nameof(SignIn));
+		}
+
 		#endregion
 	}
 }
