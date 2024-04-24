@@ -42,12 +42,16 @@ namespace MVC_3PL
                     options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 }
                 );
-			services.AddApplicationServices();
+            services.AddApplicationServices();
             //services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
             //services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddApplicationServices();
-			services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredUniqueChars = 2;
+                options.Password.RequireDigit = true;
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
 		}
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
