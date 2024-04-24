@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MVC_3DAL.Models;
-using MVC_3PL.ViewModels;
+using MVC_3PL.ViewModels.Account;
 using System.Threading.Tasks;
 using TaskThree.PL.ViewModels.Account;
 
 namespace MVC_3PL.Controllers
 {
-	public class AccountController : Controller
+    public class AccountController : Controller
 	{
 		#region SignUp - Register
 
@@ -100,6 +100,24 @@ namespace MVC_3PL.Controllers
 			return RedirectToAction(nameof(SignIn));
 		}
 
+		public IActionResult ForgetPassword()
+		{
+			return View();
+		}
+		[HttpPost]
+		public async Task<IActionResult> SendResetPasswordEmail(ForgetPasswordViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await userManager.FindByEmailAsync(model.Email);
+				if (user is not null)
+				{
+					//send email
+				}
+				ModelState.AddModelError(string.Empty, "There is not account with this email");
+			}
+			return View(model);
+		}
 		#endregion
 	}
 }
