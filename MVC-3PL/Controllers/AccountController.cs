@@ -1,23 +1,37 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using MVC_3DAL.Models;
+using MVC_3PL.Services.EmailSender;
 using MVC_3PL.ViewModels.Account;
 using System.Threading.Tasks;
-using TaskThree.PL.ViewModels.Account;
 
 namespace MVC_3PL.Controllers
 {
     public class AccountController : Controller
 	{
-		#region SignUp - Register
-
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly SignInManager<ApplicationUser> _signInManager;
 
-		public AccountController(UserManager<ApplicationUser> userManager)
+		private readonly IEmailSender _emailSender;
+		private readonly IConfiguration _configuration;
+
+		public AccountController(
+			UserManager<ApplicationUser> userManager,
+			SignInManager<ApplicationUser> signInManager,
+			IEmailSender emailSender,
+			IConfiguration configuration)
 		{
 			_userManager = userManager;
+			_signInManager = signInManager;
+			_emailSender = emailSender;
+			_configuration = configuration;
 		}
+
+		#region SignUp - Register
+
+
 		public IActionResult SignUp()
 		{
 			return View();
@@ -66,13 +80,13 @@ namespace MVC_3PL.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await userManager.FindByEmailAsync(model.Email);
+				var user = await _userManager.FindByEmailAsync(model.Email);
 				if (user is not null)
 				{
-					var flag = await userManager.CheckPasswordAsync(user, model.Password);
+					var flag = await _userManager.CheckPasswordAsync(user, model.Password);
 					if (flag)
 					{
-						var result = await signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+						var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 						if (result.IsLockedOut)
 						{
 							ModelState.AddModelError(string.Empty, "Your account is locked");
@@ -96,7 +110,7 @@ namespace MVC_3PL.Controllers
 
 		public async new Task<IActionResult> SignOut()
 		{
-			await signInManager.SignOutAsync();
+			await _signInManager.SignOutAsync();
 			return RedirectToAction(nameof(SignIn));
 		}
 
@@ -109,15 +123,63 @@ namespace MVC_3PL.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await userManager.FindByEmailAsync(model.Email);
+				var user = await _userManager.FindByEmailAsync(model.Email);
+				var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
 				if (user is not null)
 				{
-					//send email
+					var resetPasswordUrl = Url.Action("ResetPassword", "Account", new { email = user.Email, token = resetPasswordToken }, "https", "localhost:5001");
+					await _emailSender.SendAsync(
+						from: _configuration["EmailSettings:SenderEmail"],
+						recipients: model.Email,
+						subject: "Reset Your Password",
+						body: resetPasswordUrl
+						);
+					return RedirectToAction(nameof(CheckYourInbox));
+
+					ModelState.AddModelError(string.Empty, "There is not account with this email");
 				}
-				ModelState.AddModelError(string.Empty, "There is not account with this email");
+				return View(model);
 			}
-			return View(model);
 		}
-		#endregion
+
+			public IActionResult CheckYourInbox()
+			=> View();
+			#endregion
+
+			#region Reset Password
+
+			public IActionResult ResetPassword(string email, string token)
+			{
+				TempData["Email"] = email;
+				TempData["token"] = token;
+
+				return View();
+			}
+
+			[HttpPost]
+			public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+			{
+
+				if (ModelState.IsValid)
+				{
+					var email = TempData["Email"] as string;
+					var token = TempData["token"] as string;
+
+					var user = await _userManager.FindByEmailAsync(email);
+
+					if (user is not null)
+					{
+						await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
+						return RedirectToAction(nameof(SignIn));
+					}
+
+					ModelState.AddModelError(string.Empty, "Url is not valid");
+				}
+
+				return View(model);
+			}
+
+			#endregion
+		}
 	}
-}

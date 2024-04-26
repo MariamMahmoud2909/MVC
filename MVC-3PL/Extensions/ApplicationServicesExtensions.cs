@@ -2,6 +2,7 @@
 using MVC_3BLL.Interfaces;
 using MVC_3BLL.Repositories;
 using MVC_3PL.Helpers;
+using MVC_3PL.Services.EmailSender;
 
 namespace MVC_3PL.Extensions
 {
@@ -9,11 +10,11 @@ namespace MVC_3PL.Extensions
 	{
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
-			services.AddScoped<IUnitOfWork, UnitOfWork>();	
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			//services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 			//services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 			//services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
-
+			services.AddTransient<IEmailSender, EmailSender>();
 			return services;
 		}
 	}

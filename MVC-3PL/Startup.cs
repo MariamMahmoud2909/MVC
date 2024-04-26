@@ -51,7 +51,15 @@ namespace MVC_3PL
             {
                 options.Password.RequiredUniqueChars = 2;
                 options.Password.RequireDigit = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+			}).AddEntityFrameworkStores<ApplicationDbContext>()
+			  .AddDefaultTokenProviders();
+
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.LoginPath = "/Account/SignIn";
+				options.ExpireTimeSpan = TimeSpan.FromDays(1);
+				options.AccessDeniedPath = "/";
+			});
 
 			services.ConfigureApplicationCookie(options =>
 			{
